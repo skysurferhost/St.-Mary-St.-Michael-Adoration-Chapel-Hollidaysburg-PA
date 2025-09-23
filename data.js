@@ -176,6 +176,12 @@ var APP_DATA = {
           "pitch": 0.6193631031269966,
           "rotation": 0,
           "target": "2-st-mary--st-michael-adoration-chapel-hollidaysburg-pa"
+        },
+        {
+          "yaw": -1.3038811641120027,
+          "pitch": 0.16847222930647732,
+          "rotation": 0,
+          "target": "1-st-mary--st-michael-adoration-chapel-hollidaysburg-pa"
         }
       ],
       "infoHotspots": []

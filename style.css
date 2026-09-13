@@ -1069,7 +1069,7 @@ body.view-control-buttons .viewControlButton {
   left:0 !important;
   right:0 !important;
   width:auto !important;
-  height:50px !important;
+  height:var(--ss-phone-title-bar-height, 50px) !important;
   background:rgba(58,68,84,.80) !important;
   background-color:rgba(58,68,84,.80) !important;
   background-image:none !important;
@@ -1083,9 +1083,9 @@ body.view-control-buttons .viewControlButton {
   right:108px !important;
   width:auto !important;
   max-width:none !important;
-  height:50px !important;
-  min-height:50px !important;
-  line-height:50px !important;
+  height:var(--ss-phone-title-bar-height, 50px) !important;
+  min-height:var(--ss-phone-title-bar-height, 50px) !important;
+  line-height:var(--ss-phone-title-bar-height, 50px) !important;
   margin:0 !important;
   padding:0 6px !important;
   text-indent:0 !important;
@@ -1180,13 +1180,22 @@ body.ss-nav-hotspots-idle .info-hotspot-modal {
 }
 
 
+/* SKY SURFER CONTENT EDITING v1 — multilingual-friendly sizing */
+:root {
+  --ss-phone-title-bar-height: 50px;
+}
+#titleBar .sceneName {
+  font-size: clamp(14px, 2.2vw, 22px) !important;
+  unicode-bidi: plaintext;
+}
+
 /* Sky Surfer: Joyful Mysteries-style PHONE title wrapping.
    Desktop stays unchanged. Phone titles use the same readable behavior as the
    Joyful Mysteries project: one centered line when it fits, otherwise a centered
    second line instead of an ellipsis. */
 @media (max-width: 768px) {
   .mobile #titleBar {
-    height: 50px !important;
+    height: var(--ss-phone-title-bar-height, 50px) !important;
   }
 
   .mobile #titleBar .sceneName {
@@ -1202,9 +1211,9 @@ body.ss-nav-hotspots-idle .info-hotspot-modal {
 
     /* Keep the existing left/right control clearance from the generated theme. */
     width: auto !important;
-    height: 50px !important;
-    min-height: 50px !important;
-    max-height: 50px !important;
+    height: var(--ss-phone-title-bar-height, 50px) !important;
+    min-height: var(--ss-phone-title-bar-height, 50px) !important;
+    max-height: var(--ss-phone-title-bar-height, 50px) !important;
     margin: 0 !important;
     padding: 4px 8px !important;
 
@@ -1239,4 +1248,90 @@ body.ss-nav-hotspots-idle .info-hotspot-modal {
   user-select: none !important;
 }
 #pano img, .ss-scene-preview-image { -webkit-user-drag: none !important; user-drag: none !important; }
+
+
+/* SKY_SURFER_PHONE_LANDSCAPE_FULL_BLEED_V1
+   Keep phone landscape/fullscreen tours centered edge-to-edge. The panorama is
+   allowed to extend beneath display cutout/safe-area regions; only UI controls
+   are inset when the browser reports safe-area values. */
+html,
+body {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#pano {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+@media (orientation: landscape) and (pointer: coarse),
+       (orientation: landscape) and (max-height: 500px) {
+  html,
+  body {
+    width: 100vw !important;
+    height: 100vh !important;
+    min-width: 100vw !important;
+    min-height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+
+  #pano {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-width: 100vw !important;
+    min-height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+}
+
+@supports (height: 100dvh) {
+  @media (orientation: landscape) and (pointer: coarse),
+         (orientation: landscape) and (max-height: 500px) {
+    html,
+    body,
+    #pano {
+      height: 100dvh !important;
+      min-height: 100dvh !important;
+    }
+  }
+}
+
+/* With viewport-fit=cover the panorama fills the physical landscape screen.
+   Move only the interactive UI inward when a phone reports a cutout/safe area. */
+@supports (left: env(safe-area-inset-left)) {
+  @media (orientation: landscape) and (pointer: coarse),
+         (orientation: landscape) and (max-height: 500px) {
+    .mobile #sceneListToggle {
+      left: env(safe-area-inset-left) !important;
+    }
+
+    .mobile #fullscreenToggle {
+      right: env(safe-area-inset-right) !important;
+    }
+
+    .mobile #autorotateToggle {
+      right: calc(50px + env(safe-area-inset-right)) !important;
+    }
+
+    .mobile #titleBar .sceneName {
+      left: calc(60px + env(safe-area-inset-left)) !important;
+      right: calc(108px + env(safe-area-inset-right)) !important;
+    }
+  }
+}
 
